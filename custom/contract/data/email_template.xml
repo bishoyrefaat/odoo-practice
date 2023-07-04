@@ -12,10 +12,15 @@
         <!-- <field name="partner_to">{{ object.hr_responsible_id.partner_id.id or False}}</field> -->
         <field name="body_html" type="html">
             
-                <p>Dear Hr , the following contract will expire in 1 week:</p>
-        <p><strong>--variable_dynamic_1--</strong></p>
+        <p>Dear Hr , the following contract will expire in one week:</p>
+        <p>contract</p>
+        <p><field name="url">--variable_dynamic_0--</field></p>
+        <p>end date:</p>
+        <p><strong>--variable_dynbamic_1--</strong></p>
         <p>empolyee name:</p>
         <p><strong>--variable_dynamic_2--</strong></p>
+            
+            
             <p>Thank You,</p>
             <p>odoo contract module</p>
 

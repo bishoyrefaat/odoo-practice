@@ -23,9 +23,9 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        'security/ir.model.access.csv',
+        'views/contract_form_extend.xml',
+        'views/job_form_extend.xml',
         'data/email_template.xml',
         'data/cron.xml'
     ],
