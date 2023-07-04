@@ -41,10 +41,10 @@ class contract(models.Model):
         else:
             self.handover=14
 
-    def hourly_rate_calc(self, weeklyhours: float, wage)-> float:
+    def hourly_rate_calc(self, weeklyhours , wage):
         if weeklyhours==0:
             return 0.0
-        return ( (wage/4))/ float(weeklyhours)
+        return  wage/(4 *weeklyhours) 
     
        
 

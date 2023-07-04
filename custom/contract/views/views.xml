@@ -10,10 +10,9 @@
       <field name="arch" type="xml">
         
           <xpath expr="//field[@name='date_start']" position="after">
-          
+
           <field name="duration" />
-          
-          
+
           </xpath>
         
         <xpath expr="//field[@name='hr_responsible_id']" position="after">
@@ -26,14 +25,10 @@
          
           </xpath>
 
-        <xpath expr="//field[@name='wage']" position="after">
+        <xpath expr="//group[@name='salary']" position="after">
             
             <group>
-            
-            
-                  <field name="hourly" readonly="1" force_save="1"/>
-                  
-            
+                  <field name="hourly" readonly="1" force_save="1"/>       
             </group>
          
          
@@ -47,9 +42,6 @@
           </xpath>
       </field>
     </record>
-
-
-
 
 
 
