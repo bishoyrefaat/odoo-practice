@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<openerp>
+    <data>
+
+    <record id="1week_notice_email_template" model="mail.template">
+        <field name="name">1week Email Template</field>
+        <field name="model_id" ref="hr_contract.model_hr_contract" />
+        <field name="subject">1week notice Notification</field>
+        <field name="email_from">{{ object.create_uid.email_formatted or ''}}</field>
+        <!-- <field name="email_to">{{ object.hr_responsible_id.email or ''}}</field> -->
+        <!-- <field name="partner_to">{{ object.hr_responsible_id.partner_id.id or False}}</field> -->
+        <field name="body_html" type="html">
+            
+                <p>Dear Hr , the following contract will expire in 1 week:</p>
+        <p><strong>--variable_dynamic_1--</strong></p>
+        <p>empolyee name:</p>
+        <p><strong>--variable_dynamic_2--</strong></p>
+            <p>Thank You,</p>
+            <p>odoo contract module</p>
+
+
+        </field>
+    </record>
+    
+    </data>
+</openerp>
+</odoo>
