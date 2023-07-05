@@ -85,22 +85,24 @@ class contract(models.Model):
        
         print(rec_obj)
         for rec in rec_obj:
+            print(rec.id)
             print(rec.name)
             print(rec.hr_responsible_id.email)
             print(rec.hr_responsible_id.name)
-
-            body = template_obj.body_html
-            # base_url = self.request.env['ir.config_parameter'].get_param('web.base.url')
-            
-            # body=body.replace('--variable_dynamic_0--',str(base_url))
-            body=body.replace('--variable_dynamic_2--',str(rec.employee_id.name))
-            body=body.replace('--variable_dynamic_1--',str(rec.date_end))
-            mail_values = {
-            'subject': template_obj.subject,
-            'body_html': body,
-            'email_to': rec.hr_responsible_id.email,
-            # 'email_cc':';'.join(map(lambda x: x, email_cc)),
-            # 'email_from': template_obj.email_from,
-            }
-            if rec.hr_responsible_id.email != false :
+            if rec.hr_responsible_id.email :
+                body = template_obj.body_html
+                base_url = "http://localhost:8069/web#id="+str(rec.id)+"&cids=1&menu_id=273&action=436&model=hr.contract&view_type=form"
+                body=body.replace('--variable_dynamic_0--',base_url)
+                body=body.replace('--variable_dynamic_1--',str(rec.name))
+                body=body.replace('--variable_dynamic_2--',str(rec.date_end))
+                body=body.replace('--variable_dynamic_3--',str(rec.employee_id.name))
+                mail_values = {
+                'subject': template_obj.subject,
+                'body_html': body,
+                'email_to': rec.hr_responsible_id.email,
+                # 'email_cc':';'.join(map(lambda x: x, email_cc)),
+                # 'email_from': template_obj.email_from,
+                }
+                
                 create_and_send_email = self.env['mail.mail'].create(mail_values).send()
+            
