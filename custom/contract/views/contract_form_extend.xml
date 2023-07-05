@@ -18,9 +18,9 @@
          <xpath expr="//field[@name='hr_responsible_id']" position="after">
           
           
-          <!-- <field name="annual" readonly="1" force_save="1" />
-          <field name="critical" readonly="1" force_save="1" />
-          <field name="warnings" readonly="1" force_save="1" /> -->
+          <field name="annual" readonly="1" />
+          <field name="critical" readonly="1"  />
+          <field name="warnings" readonly="1"  />
           <field name="handover" readonly="1" force_save="1"/>
          
           </xpath> 

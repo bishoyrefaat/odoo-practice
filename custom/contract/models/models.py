@@ -47,9 +47,10 @@ class contract(models.Model):
         
 
     def hourly_rate_calc(self, weeklyhours , wage):
+        
         if weeklyhours==0:
             return 0.0
-        return  wage/(4 *weeklyhours) 
+        return  wage/(weeklyhours*4.0*5)
     
        
 
