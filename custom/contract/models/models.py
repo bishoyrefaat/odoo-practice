@@ -17,15 +17,15 @@ class contract(models.Model):
     holiday_allocation=fields.One2many("hr.leave.allocation","contract_id",
                                         invisible=True)
   
+
+    
     def get_vacation_types(self)->list:
-        print("++++++++++++++++++++++++++++++")
+        # print("++++++++++++++++++++++++++++++")
         obj=self.env['hr.leave.type']
-        print(obj.search([('name','=','Critical Days Off')],limit=1))
-        print(obj.search([('name','=','Annual Days Off')],limit=1))
         crit_id=obj.search([('name','=','Critical Days Off')])
         ann_id=obj.search([('name','=','Annual Days Off')])
-        print(ann_id)
-        print(ann_id.id)
+        # print(ann_id)
+        # print(ann_id.id)
         if ann_id.id==False:
             print("creating annual day off type...")
             obj.create({'name':'Annual Days Off','leave_validation_type': 'no_validation'
@@ -44,22 +44,8 @@ class contract(models.Model):
     @api.model
     def create(self,values):
         # print(values)
-        
-      
+              
         ann_id,crit_id=self.get_vacation_types()
-        print("==================")
-        # print(self.duration_id.search([]))
-        # for rec in self.duration_id.holiday_type_id :
-        #     print(rec.name)
-        #     dict={}
-        #     dict={'name':rec.name.name  ,'holiday_type':'employee' 
-        #         ,'employee_ids':rec.employee_id ,'date_from': self.date_start 
-        #         ,'date_to': self.date_end ,'holiday_status_id':rec.id
-        #         ,'allocation_type':'regular' }
-        #     tup=[0,0]
-        #     tup.append(dict)
-        #     tup=tuple(tup)
-        #     list.append(tup)
        
         list=[(0,0,{'name':"Contract Annual"  ,'holiday_type':'employee' 
                 ,'employee_id':values['employee_id'] ,'date_from': values['date_start'] 
@@ -78,11 +64,9 @@ class contract(models.Model):
         
     
     def write(self,values):
-        print(values)
         ret=super(contract,self).write(values)
         ann_id,crit_id=self.get_vacation_types()
-        print(self.holiday_allocation)
-        print(self.duration_id.annual)
+
         list=[(1,self.holiday_allocation[0].id,{'name':"Contract Annual"  ,'holiday_type':'employee' 
                 ,'employee_id':self.employee_id.id ,'date_from': self.date_start
                 ,'date_to': self.date_end ,'holiday_status_id':ann_id
@@ -105,13 +89,11 @@ class contract(models.Model):
         self.date_end=self.date_start+relativedelta(months=+self.duration_id.months)
 
     @api.onchange('job_id')
-    def onchange_job_id(self):
-            
+    def onchange_job_id(self):  
             self.handover=self.job_id.handover
         
 
     def hourly_rate_calc(self, weeklyhours , wage):
-        
         if weeklyhours==0:
             return 0.0
         return  wage/(weeklyhours*4.0*5)
@@ -138,22 +120,16 @@ class contract(models.Model):
     
     @api.model
     def cron_send_email(self):
-        
         template_obj = self.env['mail.template'].sudo().search([('name','=','1week Email Template')], limit=1)
-        
         # query = """ SELECT employee_id FROM hr_contract 
         # WHERE date_end > CURRENT_DATE::date + '6 month'::interval"""
         # self.env.cr.execute(query)
         # rec_obj=self.env.cr.fetchall()
         #rec_obj=self.env['hr.contract'].search([('date_end','>=',fields.date.today()+relativedelta(months=-5))]) #condition for testing puroses only
-        rec_obj=self.env['hr.contract'].search([('date_end','>',fields.date.today()+relativedelta(days=-7))])
+        rec_obj=self.env['hr.contract'].search([('date_end','=',fields.date.today()+relativedelta(days=-7))])
        
         print(rec_obj)
         for rec in rec_obj:
-            # print(rec.id)
-            # print(rec.name)
-            # print(rec.hr_responsible_id.email)
-            
            
             if rec.hr_responsible_id.email :
                 body = template_obj.body_html
