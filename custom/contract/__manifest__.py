@@ -27,7 +27,8 @@
         'views/contract_form_extend.xml',
         'views/job_form_extend.xml',
         'data/email_template.xml',
-        'data/cron.xml'
+        'data/cron.xml',
+        'data/hr_holiday_data.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >  
+   
+   
+   <record id="holiday_status_fcl" model="hr.leave.type">
+            <field name="name">Critical Time Off</field>
+            <field name="requires_allocation">no</field>
+            <field name="color_name">red</field>
+           
+            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="support_document">True</field>
+            
+            <field name="color">3</field>
+            <field name="company_id" eval="False"/> <!-- Explicitely set to False for it to be available to all companies -->
+            <field name="sequence">2</field>
+        </record>
+    </data>
+</odoo>
