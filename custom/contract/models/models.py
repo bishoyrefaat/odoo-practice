@@ -89,25 +89,11 @@ class contract(models.Model):
     def cron_send_email(self):
         template_obj = self.env.ref('contract.1week_notice_email_template')
         print(template_obj)
-        rec_obj=self.env['hr.contract'].search([('date_end','=',fields.date.today()+relativedelta(days=-7))])
+        rec_obj=self.env['hr.contract'].search([('date_end','=',fields.date.today()+relativedelta(days=7))])
        
         print(rec_obj)
+
         for rec in rec_obj:
-           
-            if rec.hr_responsible_id.email :
-                body = template_obj.body_html
-                base_url = self.env['ir.config_parameter'].get_param('web.base.url')+"/web#id="+str(rec.id)+"&cids=1&menu_id=273&action=436&model=hr.contract&view_type=form"
-                body=body.replace('--variable_dynamic_0--',base_url)
-                body=body.replace('--variable_dynamic_1--',str(rec.name))
-                body=body.replace('--variable_dynamic_2--',str(rec.date_end))
-                body=body.replace('--variable_dynamic_3--',str(rec.employee_id.name))
-                mail_values = {
-                'subject': template_obj.subject,
-                'body_html': body,
-                'email_to': rec.hr_responsible_id.email,
-                # 'email_cc':';'.join(map(lambda x: x, email_cc)),
-                # 'email_from': template_obj.email_from,
-                }
-                
-                create_and_send_email = self.env['mail.mail'].create(mail_values).send()
+           template_obj.send_mail(rec.id)
+        
             
