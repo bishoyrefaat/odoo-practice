@@ -20,28 +20,7 @@ class contract(models.Model):
     annual = fields.Integer( string="Annual days off",related='duration_id.annual' )
     critical = fields.Integer( string="critical days off",related='duration_id.critical')
     date_end=fields.Date(compute='_compute_enddate')
-    
-    # def get_vacation_types(self)->list:
-    #     # print("++++++++++++++++++++++++++++++")
-    #     obj=self.env['hr.leave.type']
-    #     crit_id=obj.search([('name','=','Critical Days Off')])
-    #     ann_id=obj.search([('name','=','Annual Days Off')])
-        
-    #     if ann_id.id==False:
-    #         print("creating annual day off type...")
-    #         obj.create({'name':'Annual Days Off','leave_validation_type': 'no_validation'
-    #                     ,'employee_requests':'no','requires_allocation':'yes',
-    #                      'request_unit':'day','time_type':'leave'})
-    #     if crit_id.id==False:
-    #         print("creating critical day off type...")
-    #         obj.create({'name':'Critical Days Off','leave_validation_type': 'no_validation',
-    #                     'employee_requests':'no','requires_allocation':'yes',
-    #                     'request_unit':'day','time_type':'leave'}) 
-    #     crit_id=obj.search([('name','=','Critical Days Off')],limit=1).id
-    #     ann_id=obj.search([('name','=','Annual Days Off')],limit=1).id
-    #     print(str(crit_id)+"    "+str(ann_id))
-    #     return [ann_id,crit_id]  
-  
+     
     @api.model
     def create(self,values):
         # ann_id,crit_id=self.get_vacation_types()
@@ -93,7 +72,6 @@ class contract(models.Model):
 
     @api.depends('duration_id')
     def _compute_enddate(self): 
-        # print("=============="+str(self.date_start))
         for rec in self:  
             rec.date_end=rec.date_start+relativedelta(months=+rec.duration_id.months)
 
@@ -106,16 +84,11 @@ class contract(models.Model):
             weekly=rec.resource_calendar_id.hours_per_day
         rec.hourly=wage/(weekly*4.0*5)
 
-
     
     @api.model
     def cron_send_email(self):
-        template_obj = self.env['mail.template'].sudo().search([('name','=','1week Email Template')], limit=1)
-        # query = """ SELECT employee_id FROM hr_contract 
-        # WHERE date_end > CURRENT_DATE::date + '6 month'::interval"""
-        # self.env.cr.execute(query)
-        # rec_obj=self.env.cr.fetchall()
-        #rec_obj=self.env['hr.contract'].search([('date_end','>=',fields.date.today()+relativedelta(months=-5))]) #condition for testing puroses only
+        template_obj = self.env.ref('contract.1week_notice_email_template')
+        print(template_obj)
         rec_obj=self.env['hr.contract'].search([('date_end','=',fields.date.today()+relativedelta(days=-7))])
        
         print(rec_obj)
