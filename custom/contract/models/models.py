@@ -75,7 +75,6 @@ class contract(models.Model):
         for rec in self:  
             rec.date_end=rec.date_start+relativedelta(months=+rec.duration_id.months)
 
-
     
     @api.depends('wage','resource_calendar_id')
     def _compute_hourly(self):
@@ -88,12 +87,12 @@ class contract(models.Model):
     @api.model
     def cron_send_email(self):
         template_obj = self.env.ref('contract.1week_notice_email_template')
-        print(template_obj)
-        rec_obj=self.env['hr.contract'].search([('date_end','=',fields.date.today()+relativedelta(days=7))])
-       
+        #print(template_obj)
+        rec_obj=self.env['hr.contract'].search([]).filtered(lambda x: x.date_end == fields.date.today()+relativedelta(days=7))
         print(rec_obj)
 
         for rec in rec_obj:
-           template_obj.send_mail(rec.id)
+            
+            template_obj.send_mail(rec.id)
         
             
