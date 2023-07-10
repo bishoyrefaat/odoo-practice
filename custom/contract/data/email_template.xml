@@ -18,8 +18,8 @@
         <field name="body_html" type="html">
             
         <p>Dear <span t-out="object.hr_responsible_id.name"/>, the following contract will expire in one week,"</p>
-        <p>contract</p>
-        <p><a t-attf-href = "/web#id=(rec.id)&amp;cids=1&amp;menu_id=273&amp;action=436&amp;model=hr.contract&amp;view_type=form"> <span t-out="object.name"/> </a></p>
+        <p>contract name:</p>
+        <p><a t-attf-href = "/web#id={{object.id}}&amp;cids=1&amp;menu_id=273&amp;action=436&amp;model=hr.contract&amp;view_type=form"> <span t-out="object.name"/> </a></p>
         <p>end date:</p>
         <p><strong><span t-out="object.date_end"/></strong></p>
         <p>empolyee name:</p>
