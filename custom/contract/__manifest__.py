@@ -31,8 +31,5 @@
         'data/hr_holiday_data.xml'
     ],
     # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-        
-    ],
+   
 }
