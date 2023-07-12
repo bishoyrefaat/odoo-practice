@@ -19,14 +19,13 @@ class contract(models.Model):
     warnings = fields.Integer( string="Max warnings",related='duration_id.warnings')
     annual = fields.Integer( string="Annual days off",related='duration_id.annual' )
     critical = fields.Integer( string="critical days off",related='duration_id.critical')
-    date_end=fields.Date(compute='_compute_enddate')
+    date_end=fields.Date(compute='_compute_enddate' )
      
     @api.model
     def create(self,values):
         # ann_id,crit_id=self.get_vacation_types()
         # print("=========================")
         print(self.env.ref('hr_holidays.holiday_status_cl').id)
-        
         ann_id=self.env.ref('hr_holidays.holiday_status_cl').id
         crit_id=self.env.ref('contract.holiday_status_fcl').id
         print(ann_id)
@@ -67,6 +66,7 @@ class contract(models.Model):
         
         print(values)
         ret=super(contract,self).write(values)
+
         return ret
   
 
@@ -89,7 +89,7 @@ class contract(models.Model):
         template_obj = self.env.ref('contract.1week_notice_email_template')
         #print(template_obj)
         rec_obj=self.env['hr.contract'].search([]).filtered(lambda x: x.date_end == fields.date.today()+relativedelta(days=7))
-        print(rec_obj)
+        #print(rec_obj)
 
         for rec in rec_obj:
             
